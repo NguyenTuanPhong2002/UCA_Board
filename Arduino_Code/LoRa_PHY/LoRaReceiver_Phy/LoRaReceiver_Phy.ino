@@ -1,9 +1,5 @@
 #include <SPI.h>
-#include "LoRa.h"
-
-#include <SoftwareSerial.h>
-
-SoftwareSerial swSerial(6, 5);
+#include <LoRa.h>
 
 int counter = 0;
 
@@ -23,7 +19,6 @@ String payload = "hello"; // you can change the payload
 
 void setup() {
   Serial.begin(115200);
-  swSerial.begin(115200);
   while (!Serial);
 
   Serial.println("LoRa Receiver");
@@ -55,24 +50,17 @@ void loop() {
    // try to parse packet
   int packetSize = LoRa.parsePacket();
   if (packetSize) {
-    //received a packet
+    // received a packet
     Serial.print("Received packet '");
-    // swSerial.print("Received packet '");
 
     // read packet
     while (LoRa.available()) {
-      //Serial.print((char)LoRa.read());
-      swSerial.print((char)LoRa.read());
+      Serial.print((char)LoRa.read());
     }
 
     // print RSSI of packet
-    //Serial.print("' with RSSI ");
-    //Serial.println(LoRa.packetRssi());
-    Serial.println();
-    
-
-    // swSerial.print("' with RSSI ");
-    // swSerial.println(LoRa.packetRssi());
+    Serial.print("' with RSSI ");
+    Serial.println(LoRa.packetRssi());
   }
 }
 
